@@ -23,9 +23,10 @@ d = {}
 for fasta in fasta_sequences:
 	name, sequence = fasta.id, fasta.seq.tostring()
 	d[name] = 0
-	print(name)
-	for a in pairwise2.align.localms(sequence[:1000], sequence[-1000:], 2, -1, -.5, -.1):
-		# print name,"\t",a[3]
-		d[name] = a[3] if a[3] > d.get(name) else d.get(name)
+	for a in pairwise2.align.localms(sequence[:50], sequence[51:], 2, -2, -.5, -.1):
+		print name
+		d[name] = a[2] if a[2] > d.get(name) else d.get(name)
 
-print d
+with open(args.output, 'w') as f:
+    for key, value in d.items():
+        f.write('%s\t%s\n' % (key, value))
