@@ -2,8 +2,7 @@
 # Geoffrey Hannigan
 # University of Michigan
 
-# Install dependencies
-Pkg.add("Bio")
+# Setting dependencies
 using Bio.Align
 using Bio.Seq
 
@@ -16,6 +15,9 @@ scoremodel = AffineGapScoreModel(
     gap_extend=-1
 )
 
-alignment_result = pairalign(problem, dna"CGGATTA", dna"GGTTTAC", scoremodel)
+filepath = ARGS[1]
 
-score(alignment_result)
+for s in open( filepath, FASTA )
+    alignment_result = pairalign(problem, s.seq[1:50], s.seq[51:end], scoremodel)
+    print(score(alignment_result),"\t",s.name,"\n")
+end
