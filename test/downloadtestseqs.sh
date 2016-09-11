@@ -25,16 +25,17 @@ rm ./tmpoutblocked
 # Repeat random length of beginning sequence at end of genome
 while read line; do
 	genometype=$(echo $line | awk '{ print $3 }')
-	echo ${genometype} 1>&2
 	if [[ ${genometype} == "circular" ]]; then
 		acc=$(echo $line | awk '{ print $2 }')
 		grep -A 1 ${acc} ./tmpoutsub \
 			| grep -v '\-\-' \
-			| perl -pe 'my $randomvar = 250 + int rand(1000); s/^(\w{$randomvar})(\w+)/$1$2$1/ if $.==2'
+			| perl -pe 'my $randomvar = 750; s/^(\w{$randomvar})(\w+)/$1$2$1/ if $.==2' \
+			| sed "s/\(>.*\)/\1_$genometype/"
 	else
 		acc=$(echo $line | awk '{ print $2 }')
 		grep -A 1 ${acc} ./tmpoutsub \
-			| grep -v '\-\-'
+			| grep -v '\-\-' \
+			| sed "s/\(>.*\)/\1_$genometype/"
 	fi
 done < ${AccessionList} > ${OutputFile}
 
