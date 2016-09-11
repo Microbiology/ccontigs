@@ -5,6 +5,18 @@
 # Setting dependencies
 using Bio.Align
 using Bio.Seq
+using ArgParse
+
+# Setup ArgParse
+argx = ArgParseSettings()
+@add_arg_table argx begin
+    "--input", "-i"
+        help = "Input fasta file for identifying circular contigs."
+    "--output", "-o"
+        help = "Output file to write reults."
+end
+
+parsed_args = parse_args(ARGS, argx)
 
 problem = LocalAlignment()
 
@@ -15,9 +27,13 @@ scoremodel = AffineGapScoreModel(
     gap_extend=-1
 )
 
-filepath = ARGS[1]
+filepath = parsed_args["input"]
+fileout = parsed_args["output"]
+outputfile = open(fileout, "w")
 
 for s in open( filepath, FASTA )
     alignment_result = pairalign(problem, s.seq[1:50], s.seq[51:end], scoremodel)
-    print(score(alignment_result),"\t",s.name,"\n")
+    scorestring = score(alignment_result)
+    seqname = s.name
+    write(outputfile, "$scorestring\t$seqname\n")
 end
