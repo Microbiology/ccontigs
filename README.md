@@ -1,6 +1,9 @@
 # ccontigs
 Detect contigs of complete circular genomes
 
+## Under the hood
+As circular viral genomes are completely sequenced and assembled, the end of the genome is immediately followed by a repeat of the beginning of the genome. By recognizing the repeated start region of the genome, we can identify circular genomes that were completed and began repeating. This program `ccontigs` closes the circular genomic contigs by indeitfying repeats.
+
 ## How to download
 Simply download the set of files by clicking the `releases` button above and downloading the compressed file. You are also of course free to clone or fork the repository.
 
