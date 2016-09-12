@@ -4,6 +4,21 @@ Detect contigs of complete circular genomes
 ## Under the hood
 As circular viral genomes are completely sequenced and assembled, the end of the genome is immediately followed by a repeat of the beginning of the genome. By recognizing the repeated start region of the genome, we can identify circular genomes that were completed and began repeating. This program `ccontigs` closes the circular genomic contigs by indeitfying repeats.
 
+## Performance
+This program runs **very rapidly** thanks to the efficient pairwise alignment algorithms implemented in Julia.
+
+The program `ccontigs` is able to identify **all circular contigs with minimal false positive hits** (i.e. linear contigs identified as circular). It is worth noting that some linear genomes were identified as circular. This is largely an artifact of naturally occuring repeats in some phage/virus genomes. As an example, the [Staphylococcus phage MSA6](http://www.ncbi.nlm.nih.gov/nuccore/JX080304.2) contains a repeat of the beginning of the genome at the end of the genome, even though it is linear (information from the source below). This rare occurence is important to note when interpreting results, as as minority of circular contigs may in fact represent artifacts. Because the goal is often detecting complete genome coverage instead of circular genomes themselves, these circular artifacts fail to diminish confidence of completely covered genomes.
+
+```
+On Mar 12, 2014 this sequence version replaced gi:394777096.
+This sequence represents the complete sequence of MSA6 virion DNA.
+MSA6 virion DNA contains 8049 bp direct sequence repeats at its
+ends: L-LTR and R-LTR. Sequences of L-LTR and R-LTR are identical,
+as one of them is generated during phage DNA packaging. Thus,
+140194 bp of this sequence (L-LTR + non reduntant virion DNA part)
+contain the complete set of MSA6 genes.
+```
+
 ## How to download
 Simply download the set of files by clicking the `releases` button above and downloading the compressed file. You are also of course free to clone or fork the repository.
 
