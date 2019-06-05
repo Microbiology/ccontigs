@@ -10,7 +10,7 @@ AccString=$(cut -f 2 ${AccessionList} | tr '\n' ',' | sed 's/,$//')
 
 # Download the test dataset
 echo Downloading Sequences
-wget "http://www.ebi.ac.uk/ena/data/view/${AccString}&display=fasta" -O ./tmpout
+wget "https://www.ebi.ac.uk/ena/data/view/${AccString}&display=fasta" -O ./tmpout
 
 perl ./remove_block_fasta_format.pl \
 	./tmpout \
