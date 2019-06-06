@@ -40,11 +40,13 @@ hitlength = parsed_args["length"]
 threshold = hitlength * 5 * parsed_args["thresh"]
 maxscore = hitlength * 5
 print("Perfect alignment score is $maxscore\n")
+inputfasta = FASTA.Reader(open( filepath))
 
-for s in open( filepath, FASTA )
-    alignment_result = pairalign(problem, s.seq[1:hitlength], s.seq[hitlength:end], scoremodel)
+
+for s in inputfasta
+    alignment_result = pairalign(problem, FASTA.sequence(s , 1:hitlength), FASTA.sequence(s , hitlength:length(FASTA.sequence(s))), scoremodel)
     scorestring = score(alignment_result)
-    seqname = s.name
+    seqname = FASTA.identifier(s)
     if scorestring > threshold
         write(outputfile, "$seqname\t$scorestring\n")
     end
